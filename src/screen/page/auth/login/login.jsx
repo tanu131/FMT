@@ -25,13 +25,13 @@ const Login = () => {
             <img src={Logo} alt="Background" className="h-6 w-auto" />
           </div>
         </Link>
-        <div className="py-36">
+        <div className="py-20 mt-6">
           <h1 className="font-bold text-4xl">Welcome</h1>
           <h2 className="text-4xl mt-2">Register for an account here</h2>
-          <p className="text-lg mt-7">
+          <p className="text-lg mt-7 ">
             It is a long-established fact that a reader will be distracted by the
-            readable content of a page when looking at its layout. The point of
-            using lorem ipsum is that it has a distribution
+            readable content of a <br/>page when looking at its layout. The point of
+            using lorem ipsum is that it has a<br/> distribution
           </p>
         </div>
         <DefaultButton

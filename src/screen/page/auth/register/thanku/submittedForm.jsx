@@ -2,6 +2,7 @@ import React from "react";
 import { RxCross2 } from "react-icons/rx";
 import { RiCheckDoubleLine } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
+
 const SubmittedForm = ({ onClose }) => {
   const navigate = useNavigate();
 

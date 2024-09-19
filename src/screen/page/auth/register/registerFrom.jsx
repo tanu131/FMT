@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import DefaultButton from '../../../component/defaultButton';
 import { Link } from 'react-router-dom';
-import SubmittedForm from '../register/submittedForm'; 
+import SubmittedForm from './thanku/submittedForm'; 
 
 const RegisterForm = ({ userType, onSubmit }) => {
   const [formData, setFormData] = useState({
