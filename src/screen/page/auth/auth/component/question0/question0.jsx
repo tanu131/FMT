@@ -1,17 +1,17 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import DefaultButton from "../../../../../component/defaultButton";
 import LogoIcon from "../../../../../../assets/image/logo_purple.png";
 import Logo from "../../../../../../assets/image/logo.png";
 
 const Question0 = ({ handleButtonClick }) => {
+  const [isValid, setIsValid] = useState(false);
+
   useEffect(() => {
     const handleKeyDown = (event) => {
       if (event.key === "Enter") {
         event.preventDefault();
-        if (typeof handleButtonClick === 'function') {
-          handleButtonClick();
-        } else {
-          console.error("handleButtonClick is not a function");
+        if (isValid) {
+          handleButtonClick && handleButtonClick();
         }
       }
     };
@@ -20,7 +20,11 @@ const Question0 = ({ handleButtonClick }) => {
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
     };
-  }, [handleButtonClick]);
+  }, [isValid, handleButtonClick]);
+
+  const handleOptionSelect = (isValidOption) => {
+    setIsValid(isValidOption);
+  };
 
   return (
     <div className="w-full h-screen flex flex-col justify-center items-center p-4">
@@ -39,12 +43,31 @@ const Question0 = ({ handleButtonClick }) => {
             questions.
             <br /> Please note that this survey is completely anonymous.
           </h3>
+          <div className="flex flex-col gap-2">
+            <label>
+              <input
+                type="radio"
+                name="options"
+                onChange={() => handleOptionSelect(true)}
+              />
+              Option 1 (Valid)
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="options"
+                onChange={() => handleOptionSelect(false)}
+              />
+              Option 2 (Invalid)
+            </label>
+          </div>
         </div>
         <div className="flex gap-4 justify-center items-center px-4">
           <DefaultButton
             label="Okay, I'm ready"
             onClick={handleButtonClick}
-            className="bg-indigo-800 text-sm lg:text-md text-white px-6 py-2 font-semibold rounded-lg"
+            className={`bg-indigo-800 text-sm lg:text-md text-white px-6 py-2 font-semibold rounded-lg ${!isValid ? 'opacity-50 cursor-not-allowed' : ''}`}
+            disabled={!isValid}
           />
           <p className="text-sm lg:text-md font-light">
             Press <span className="font-medium">Enter</span> ↵

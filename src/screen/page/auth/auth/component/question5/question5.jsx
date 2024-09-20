@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { IoIosArrowRoundForward } from "react-icons/io";
 import { TbCornerDownLeft } from "react-icons/tb";
 import DefaultButton from "../../../../../component/defaultButton";
@@ -6,6 +6,7 @@ import { useSurveyContext } from "../../../../../../context/surveyContext";
 
 const Question5 = ({ onNext }) => {
   const { checkedConditions, setCheckedConditions } = useSurveyContext();
+  const [isValid, setIsValid] = useState(false);
 
   const conditions = [
     { label: "Anxiety" },
@@ -16,6 +17,11 @@ const Question5 = ({ onNext }) => {
     { label: "Other" },
   ];
 
+  useEffect(() => {
+    // Check if at least one condition is checked
+    setIsValid(Object.values(checkedConditions).some(Boolean));
+  }, [checkedConditions]);
+
   const handleCheckboxChange = (event) => {
     const { id, checked } = event.target;
     setCheckedConditions((prevState) => ({
@@ -25,29 +31,22 @@ const Question5 = ({ onNext }) => {
   };
 
   const handleNextClick = () => {
-    console.log("Next Clicked - Checked Conditions:", checkedConditions); 
-    onNext(); 
+    if (isValid) {
+      console.log("Next Clicked - Checked Conditions:", checkedConditions);
+      onNext();
+    }
   };
 
   useEffect(() => {
-    const handleKeyPress = (event) => {
-      if (event.key === "Enter") {
+    const handleKeyDown = (event) => {
+      if (event.key === "Enter" && isValid) {
         event.preventDefault();
         handleNextClick();
       }
-    };
-
-    window.addEventListener("keydown", handleKeyPress);
-    return () => {
-      window.removeEventListener("keydown", handleKeyPress);
-    };
-  }, [checkedConditions, onNext]);
-
-  useEffect(() => {
-    const handleKeyDown = (event) => {
+      
       const key = event.key.toUpperCase();
       const index = key.charCodeAt(0) - 65; 
-
+      
       if (index >= 0 && index < conditions.length) {
         const conditionId = `condition-${conditions[index].label}`;
         const checkbox = document.getElementById(conditionId);
@@ -55,17 +54,14 @@ const Question5 = ({ onNext }) => {
           event.preventDefault();
           checkbox.click();
         }
-      } else if (event.key === "Enter") {
-        event.preventDefault();
-        handleNextClick();
       }
     };
 
-    document.addEventListener("keydown", handleKeyDown);
+    window.addEventListener("keydown", handleKeyDown);
     return () => {
-      document.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [conditions, checkedConditions, handleNextClick]);
+  }, [isValid]);
 
   return (
     <div className="w-full h-screen flex justify-center items-center">
@@ -89,9 +85,7 @@ const Question5 = ({ onNext }) => {
                 <label
                   key={conditionId}
                   className={`flex items-center gap-2 border border-indigo-800 font-semibold text-xs lg:text-lg p-1 lg:p-2 rounded-md cursor-pointer transition-colors ${
-                    checkedConditions[conditionId]
-                      ? "bg-indigo-800 text-white"
-                      : "bg-purple-100"
+                    checkedConditions[conditionId] ? "bg-indigo-800 text-white" : "bg-purple-100"
                   }`}
                   htmlFor={conditionId}
                 >
@@ -101,13 +95,10 @@ const Question5 = ({ onNext }) => {
                     checked={checkedConditions[conditionId] || false}
                     onChange={handleCheckboxChange}
                     className="hidden"
-                    tabIndex="0" 
                   />
                   <span
                     className={`w-6 h-6 border border-gray-500 rounded-md flex items-center justify-center text-xs lg:text-sm ${
-                      checkedConditions[conditionId]
-                        ? "bg-indigo-800 text-white"
-                        : "bg-purple-100"
+                      checkedConditions[conditionId] ? "bg-indigo-800 text-white" : "bg-purple-100"
                     }`}
                   >
                     {letter}
@@ -122,6 +113,7 @@ const Question5 = ({ onNext }) => {
               label="Ok ✓"
               onClick={handleNextClick}
               className="bg-indigo-800 text-sm lg:text-lg hover:bg-indigo-900 py-1 px-2 lg:px-4 lg:py-2 text-white rounded-md lg:rounded-lg"
+              disabled={!isValid} 
             />
             <p className="text-sm lg:text-lg font-light flex justify-center items-center gap-1">
               Press <span className="font-medium">Enter</span> <TbCornerDownLeft />

@@ -11,6 +11,7 @@ import OngoingTrials from "./screen/page/main/ongoingTrials/ongoingTrials";
 import Login from "./screen/page/auth/login/login";
 import AuthRoute from "./screen/route/authRoute/authRoute";
 import Register from "./screen/page/auth/register/register";
+import Auth from "./screen/page/auth/auth/auth";
 function App() {
   return (
     <div className="App">
@@ -28,7 +29,7 @@ function App() {
         
               <Route path="/login" element={<Login/>}/>
               <Route path="/register" element={<Register/>}/>
-             
+              <Route path="/auth" element={<Auth/>}/>
             </Route>
           </Routes>
         </BrowserRouter>

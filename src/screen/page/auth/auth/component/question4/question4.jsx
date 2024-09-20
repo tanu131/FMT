@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { TbCornerDownLeft } from "react-icons/tb";
 import { IoIosArrowRoundForward } from "react-icons/io";
 import DefaultButton from "../../../../../component/defaultButton";
@@ -6,20 +6,25 @@ import { useSurveyContext } from "../../../../../../context/surveyContext";
 
 const Question4 = ({ onNext }) => {
   const { selectedValue, setSelectedValue } = useSurveyContext();
+  const [isValid, setIsValid] = useState(false);
 
   const handleOptionChange = (value) => {
-    console.log("Option Changed:", value); // Debugging
     setSelectedValue(value);
   };
 
+  useEffect(() => {
+    setIsValid(selectedValue !== null);
+  }, [selectedValue]);
+
   const handleNextClick = () => {
-    console.log("Next Clicked - Selected Value:", selectedValue); // Debugging
-    onNext(); // Proceed to the next step without validation
+    if (isValid) {
+      onNext();
+    }
   };
 
   useEffect(() => {
     const handleKeyDown = (event) => {
-      if (event.key === 'Enter') {
+      if (event.key === 'Enter' && isValid) {
         event.preventDefault();
         handleNextClick();
       }
@@ -40,7 +45,6 @@ const Question4 = ({ onNext }) => {
       const value = keyToValueMap[event.key.toUpperCase()];
       if (value) {
         event.preventDefault();
-        console.log("Key Pressed - Value:", value); // Debugging
         handleOptionChange(value);
         document.querySelector(`input[value="${value}"]`).focus();
       }
@@ -50,7 +54,7 @@ const Question4 = ({ onNext }) => {
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
     };
-  }, [selectedValue]);
+  }, [isValid]);
 
   return (
     <div className="w-full h-screen flex justify-center items-center">
@@ -77,7 +81,6 @@ const Question4 = ({ onNext }) => {
                 checked={selectedValue === "Yes"}
                 onChange={() => handleOptionChange("Yes")}
                 className="hidden"
-                tabIndex={0}
               />
               <span
                 className={`w-6 h-6 border border-gray-500 rounded-md flex items-center justify-center text-xs lg:text-sm ${
@@ -101,7 +104,6 @@ const Question4 = ({ onNext }) => {
                 checked={selectedValue === "No"}
                 onChange={() => handleOptionChange("No")}
                 className="hidden"
-                tabIndex={0}
               />
               <span
                 className={`w-6 h-6 border border-gray-500 rounded-md flex items-center justify-center text-xs lg:text-sm ${
@@ -118,9 +120,10 @@ const Question4 = ({ onNext }) => {
               label="Ok ✓"
               onClick={handleNextClick}
               className="bg-indigo-800 text-sm lg:text-lg hover:bg-indigo-900 py-1 px-2 lg:px-4 lg:py-2 text-white rounded-md lg:rounded-lg"
+              disabled={!isValid} 
             />
             <p className="text-sm lg:text-lg font-light flex justify-center items-center gap-1">
-              Press <span className="font-medium">Enter</span> <TbCornerDownLeft/>
+              Press <span className="font-medium">Enter</span> <TbCornerDownLeft />
             </p>
           </div>
         </div>

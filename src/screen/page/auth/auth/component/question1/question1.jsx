@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { TbCornerDownLeft } from "react-icons/tb";
 import { IoIosArrowRoundForward } from 'react-icons/io';
 import DefaultButton from "../../../../../component/defaultButton";
@@ -6,6 +6,11 @@ import { useSurveyContext } from "../../../../../../context/surveyContext";
 
 const Question1 = ({ onNext }) => {
   const { date, setDate } = useSurveyContext();
+  const [isValid, setIsValid] = useState(false);
+
+  useEffect(() => {
+    setIsValid(!!date); 
+  }, [date]);
 
   const handleDateChange = (event) => {
     const newDate = event.target.value;
@@ -13,7 +18,7 @@ const Question1 = ({ onNext }) => {
   };
 
   const handleNextClick = () => {
-    if (date) {
+    if (isValid) {
       onNext();
     }
   };
@@ -49,7 +54,7 @@ const Question1 = ({ onNext }) => {
             <DefaultButton
               label="Ok ✓"
               onClick={handleNextClick}
-              disabled={!date}
+              disabled={!isValid} 
               className="bg-indigo-800 text-sm lg:text-lg hover:bg-indigo-900 py-1 px-2 lg:px-4 lg:py-2 text-white rounded-md lg:rounded-lg"
             />
             <p className="text-sm lg:text-lg font-light flex justify-center items-center gap-1">

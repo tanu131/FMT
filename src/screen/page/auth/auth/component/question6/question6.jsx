@@ -12,16 +12,15 @@ const Question6 = ({ onNext }) => {
     setSelectedRate(number);
   };
 
-  // Use useCallback to memoize handleKeyPress
   const handleKeyPress = useCallback((event) => {
     const keyPressed = parseInt(event.key, 10);
     if (Rate.includes(keyPressed)) {
       setSelectedRate(keyPressed);
     }
-    if (event.key === "Enter") {
+    if (event.key === "Enter" && selectedRate) {
       onNext();
     }
-  }, [Rate, setSelectedRate, onNext]);
+  }, [Rate, setSelectedRate, onNext, selectedRate]);
 
   useEffect(() => {
     window.addEventListener("keydown", handleKeyPress);
@@ -29,7 +28,7 @@ const Question6 = ({ onNext }) => {
     return () => {
       window.removeEventListener("keydown", handleKeyPress);
     };
-  }, [handleKeyPress]); // Dependency on the memoized function
+  }, [handleKeyPress]);
 
   return (
     <div className="w-full h-screen flex justify-center items-center">
@@ -67,8 +66,15 @@ const Question6 = ({ onNext }) => {
           <div className="flex justify-center items-center gap-2">
             <DefaultButton
               label="Ok ✓"
-              onClick={onNext}
-              className="bg-indigo-800 text-sm lg:text-lg hover:bg-indigo-900 py-1 px-2 lg:px-4 lg:py-2 text-white rounded-md lg:rounded-lg"
+              onClick={() => {
+                if (selectedRate) {
+                  onNext();
+                }
+              }}
+              className={`bg-indigo-800 text-sm lg:text-lg hover:bg-indigo-900 py-1 px-2 lg:px-4 lg:py-2 text-white rounded-md lg:rounded-lg ${
+                !selectedRate ? "opacity-50 cursor-not-allowed" : ""
+              }`}
+              disabled={!selectedRate} 
             />
             <p className="text-sm lg:text-lg font-light flex justify-center items-center gap-1">
               Press <span className="font-medium">Enter</span><TbCornerDownLeft/>

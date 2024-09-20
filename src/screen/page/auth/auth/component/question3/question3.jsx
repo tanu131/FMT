@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { IoIosArrowRoundForward } from "react-icons/io";
 import { TbCornerDownLeft } from "react-icons/tb";
 import DefaultButton from "../../../../../component/defaultButton";
@@ -6,6 +6,7 @@ import { useSurveyContext } from "../../../../../../context/surveyContext";
 
 const Question3 = ({ onNext }) => {
   const { checkedConditions, setCheckedConditions } = useSurveyContext();
+  const [isValid, setIsValid] = useState(false);
 
   const conditions = [
     { label: "Heart Disease" },
@@ -46,18 +47,23 @@ const Question3 = ({ onNext }) => {
         event.preventDefault();
         checkbox.click();
       }
-    } else if (event.key === "Enter") {
+    } else if (event.key === "Enter" && isValid) {
       event.preventDefault();
       onNext();
     }
   };
 
   useEffect(() => {
+    const hasCheckedConditions = Object.values(checkedConditions).some(Boolean);
+    setIsValid(hasCheckedConditions);
+  }, [checkedConditions]);
+
+  useEffect(() => {
     document.addEventListener("keydown", handleKeyDown);
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
     };
-  }, [conditions, onNext]);
+  }, [handleKeyDown]);
 
   return (
     <div className="w-full h-screen flex justify-center items-center">
@@ -74,7 +80,6 @@ const Question3 = ({ onNext }) => {
           </h1>
           <div className="grid grid-cols-1 w-full lg:grid-cols-3 gap-2 lg:gap-4">
             {conditions.map((item, index) => {
-              const letter = String.fromCharCode(65 + index);
               const conditionId = `condition-${item.label}`;
 
               return (
@@ -93,7 +98,6 @@ const Question3 = ({ onNext }) => {
                     checked={checkedConditions[conditionId] || false}
                     onChange={handleCheckboxChange}
                     className="hidden"
-                    tabIndex="0" // Make the checkbox focusable
                   />
                   <span
                     className={`w-6 h-6 border border-gray-500 rounded-md flex items-center justify-center text-xs lg:text-sm ${
@@ -102,7 +106,7 @@ const Question3 = ({ onNext }) => {
                         : "bg-purple-100"
                     }`}
                   >
-                    {letter}
+                    {String.fromCharCode(65 + index)}
                   </span>
                   <span>{item.label}</span>
                 </label>
@@ -112,8 +116,9 @@ const Question3 = ({ onNext }) => {
           <div className="flex justify-center items-center gap-2">
             <DefaultButton
               label="Ok ✓"
-              onClick={onNext}
+              onClick={isValid ? onNext : null}
               className="bg-indigo-800 text-sm lg:text-lg hover:bg-indigo-900 py-1 px-2 lg:px-4 lg:py-2 text-white rounded-md lg:rounded-lg"
+              disabled={!isValid}
             />
             <p className="text-sm lg:text-lg font-light flex justify-center items-center gap-1">
               Press <span className="font-medium">Enter</span> <TbCornerDownLeft />

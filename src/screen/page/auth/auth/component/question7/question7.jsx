@@ -3,7 +3,7 @@ import DefaultButton from "../../../../../component/defaultButton";
 import LogoIcon from "../../../../../../assets/image/logo_purple.png";
 import Logo from "../../../../../../assets/image/logo.png";
 
-const Question7 = () => {
+const Question7 = ({ onContinue }) => {
   return (
     <div className="w-full h-screen flex flex-col justify-center">
       <div className="text-center flex flex-col gap-8">
@@ -26,6 +26,8 @@ const Question7 = () => {
           <DefaultButton
             label="Go to Find My Trails"
             className="bg-indigo-800 text-sm lg:text-md text-white px-6 py-3 font-semibold rounded-lg"
+            onClick={onContinue} 
+            aria-label="Go to Find My Trails" 
           />
           <p className="text-sm lg:text-md font-light">
             Press <span className="font-medium">Enter</span> ↵

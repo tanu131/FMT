@@ -33,7 +33,9 @@ const Home = () => {
         </p>
 
         <div className="relative mt-6">
-          <Dropdown />
+          <Dropdown
+          
+          />
         </div>
 
         <ul className="mt-2 list-disc pl-5">

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { IoIosArrowRoundForward } from 'react-icons/io';
 import DefaultButton from "../../../../../component/defaultButton";
 import { useSurveyContext } from "../../../../../../context/surveyContext";
@@ -6,20 +6,22 @@ import { useSurveyContext } from "../../../../../../context/surveyContext";
 const Question2 = ({ onNext }) => {
   const { selectedRate, setSelectedRate } = useSurveyContext();
   const Rate = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  const [isValid, setIsValid] = useState(false);
+
+  useEffect(() => {
+    setIsValid(selectedRate !== null); 
+  }, [selectedRate]);
 
   const handleRateClick = (number) => {
     setSelectedRate(number);
   };
 
   const handleKeyDown = (event) => {
-    console.log("Key pressed in Question2:", event.key);
-
     const keyPressed = parseInt(event.key, 10);
     if (Rate.includes(keyPressed)) {
       setSelectedRate(keyPressed);
     }
-    if (event.key === "Enter" && selectedRate !== null) {
-      console.log("Enter pressed in Question2 and rate selected");
+    if (event.key === "Enter" && isValid) {
       onNext();
     }
   };
@@ -31,7 +33,7 @@ const Question2 = ({ onNext }) => {
     return () => {
       window.removeEventListener("keydown", handleKeyDownWrapper);
     };
-  }, [selectedRate, onNext]);
+  }, [isValid, onNext]);
 
   return (
     <div className="w-full h-screen flex justify-center items-center" onKeyDown={handleKeyDown} tabIndex="0">
@@ -69,13 +71,9 @@ const Question2 = ({ onNext }) => {
           <div className="flex justify-center items-center gap-2">
             <DefaultButton
               label="Ok ✓"
-              onClick={() => {
-                if (selectedRate !== null) {
-                  onNext();
-                }
-              }}
+              onClick={isValid ? onNext : null}
               className="bg-indigo-800 text-sm lg:text-lg hover:bg-indigo-900 py-1 px-2 lg:px-4 lg:py-2 text-white rounded-md lg:rounded-lg"
-              disabled={selectedRate === null}
+              disabled={!isValid} 
             />
             <p className="text-sm lg:text-lg font-light">
               Press <span className="font-medium">Enter</span> ↵
