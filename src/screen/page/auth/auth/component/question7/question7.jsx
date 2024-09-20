@@ -1,9 +1,30 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom"; 
 import DefaultButton from "../../../../../component/defaultButton";
 import LogoIcon from "../../../../../../assets/image/logo_purple.png";
 import Logo from "../../../../../../assets/image/logo.png";
 
-const Question7 = ({ onContinue }) => {
+const Question7 = () => {
+  const navigate = useNavigate();
+
+  const handleContinue = () => {
+    navigate("/");
+  };
+
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        handleContinue();
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
+
   return (
     <div className="w-full h-screen flex flex-col justify-center">
       <div className="text-center flex flex-col gap-8">
@@ -26,7 +47,7 @@ const Question7 = ({ onContinue }) => {
           <DefaultButton
             label="Go to Find My Trails"
             className="bg-indigo-800 text-sm lg:text-md text-white px-6 py-3 font-semibold rounded-lg"
-            onClick={onContinue} 
+            onClick={handleContinue}
             aria-label="Go to Find My Trails" 
           />
           <p className="text-sm lg:text-md font-light">

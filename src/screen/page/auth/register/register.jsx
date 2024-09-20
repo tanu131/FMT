@@ -9,7 +9,6 @@ import DefaultNextButton from '../../../component/defaultNextButton';
 const Register = ({ onClose }) => {
   const [step, setStep] = useState('selection');
   const [selectedUserType, setSelectedUserType] = useState(null);
-
   const handleUserTypeClick = (userType) => {
     setSelectedUserType(userType);
   };

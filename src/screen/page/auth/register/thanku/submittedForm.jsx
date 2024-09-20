@@ -7,7 +7,7 @@ const SubmittedForm = ({ onClose }) => {
   const navigate = useNavigate();
 
   const handleBackToLogin = () => {
-    navigate("/login");
+    navigate("/auth");
     onClose();
   };
 

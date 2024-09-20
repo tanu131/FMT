@@ -1,6 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
-
 import { SurveyProvider } from "./context/surveyContext";
 import MainRoute from "./screen/route/mainRoute/mainRoute";
 import Home from "./screen/page/main/home/home";
