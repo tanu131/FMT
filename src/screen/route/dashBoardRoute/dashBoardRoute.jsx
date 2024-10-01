@@ -1,14 +1,15 @@
 import React from 'react';
-import Header from '../../page/component/header/header';
 import { Outlet } from 'react-router-dom';
-import Footer from '../../page/component/footer/footer';
-
-const DashBoardRoute = ({ isAuthenticated, setIsAuthenticated, handleLogout }) => { 
+import DashboardSidebar from '../../page/main/dashboardPages/component/dashboardSidebar/dashboardSideBar';
+import DashBoardHeader from '../../page/main/dashboardPages/component/dashboardHeader/dashboardHeader';
+const DashBoardRoute = () => { 
   return (
-    <div>
-      <Header isAuthenticated={isAuthenticated} handleLogout={handleLogout} />
-      <Outlet />
-      <Footer />
+    <div className='flex'>
+      <DashboardSidebar/>
+      <div className='w-full'>
+        <DashBoardHeader/>
+        <div><Outlet/></div>
+      </div>
     </div>
   );
 }

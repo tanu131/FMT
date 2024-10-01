@@ -14,7 +14,7 @@ const Header = ({ color = "white",isAuthenticated,handleLogout }) => {
     { name: "What We Do?", link: "/whatWeDo" },
     { name: "Ongoing Trials", link: "/ongoingTrials" },
     { name: "Contact", link: "/contact" },
-    // { name: "Login", link: "/login" },
+
   ];
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
@@ -42,7 +42,7 @@ const Header = ({ color = "white",isAuthenticated,handleLogout }) => {
       <Link to={'/login'} className="text-white">login</Link>
  )}
  {isAuthenticated && (
-   <DefaultButton
+   <DefaultButton 
      classNames={"text-white"}
      anchor
      onPress={"/dashboard"}

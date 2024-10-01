@@ -2,6 +2,7 @@ import React from "react";
 import { FaAmbulance, FaHandHoldingMedical } from "react-icons/fa";
 import { PiClockCountdownFill } from "react-icons/pi";
 import DefaultButton from "../../../../../../../component/defaultButton";
+import { useNavigate } from "react-router-dom"; // Import the useNavigate hook
 
 const ResultCard = ({
   trialId,
@@ -10,8 +11,14 @@ const ResultCard = ({
   timeInTrial,
   hospitalVisits,
   description,
-  onMoreInfoClick,
 }) => {
+  const navigate = useNavigate(); // Initialize the navigate hook
+
+  const handleMoreInfoClick = () => {
+    // Navigate to the Study page with the trialId as a parameter
+    navigate(`/category/result/study/${trialId}`);
+  };
+
   return (
     <div className="border border-black rounded-lg p-6 shadow-md mb-6 flex flex-col justify-center items-start bg-light-color">
       <h3 className="text-base font-bold text-black">
@@ -45,7 +52,7 @@ const ResultCard = ({
             <DefaultButton
               label="More Information"
               className="bg-blue text-white px-4 py-2 w-44 font-semibold rounded-md"
-              onClick={() => onMoreInfoClick(trialId)}
+              onClick={handleMoreInfoClick} // Use the updated handler
             />
           </div>
         </div>

@@ -22,6 +22,8 @@ const Login = () => {
 
   const handleLogin = (e) => {
     e.preventDefault(); 
+    localStorage.setItem('userEmail', email);
+    localStorage.setItem('isLoggedIn', true);
     navigate("/"); 
   };
 
