@@ -10,6 +10,8 @@ module.exports = {
     extend: {
       colors: {
         'blue': '#392B85',
+        'light-color':'rgb(226 232 247 )',
+        'page-light-color':'rgb(244 246 250)',
       },
     },
   },

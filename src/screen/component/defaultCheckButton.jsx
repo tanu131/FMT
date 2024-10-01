@@ -83,10 +83,10 @@ const DefaultCheckButton = () => {
           <div
             key={item.id}
             onClick={() => handleToggle(item.id)}
-            className={`border-8 border-white h-96 rounded-md p-4 flex flex-col justify-between cursor-pointer ${
+            className={`border-white border-8 h-96 rounded-md p-4 flex flex-col justify-between cursor-pointer ${
               checkedItems[item.id]
-                ? "bg-blue-500 text-white"
-                : "bg-purple-200 text-black"
+                ? "bg-blue text-white"
+                : "bg-light-color text-black"
             }`}
           >
             <div className="">

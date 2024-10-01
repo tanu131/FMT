@@ -5,8 +5,11 @@ import { useNavigate } from "react-router-dom";
 
 const SubmittedForm = ({ onClose }) => {
   const navigate = useNavigate();
-
   const handleBackToLogin = () => {
+    navigate("/login");
+    onClose();
+  };
+  const handleClose = () => {
     navigate("/auth");
     onClose();
   };
@@ -16,7 +19,7 @@ const SubmittedForm = ({ onClose }) => {
       <div className="relative p-6 rounded-lg shadow-lg w-auto bg-purple-50">
         <button
           className="absolute top-2 right-2 text-white bg-blue rounded-full p-1 text-2xl"
-          onClick={onClose}
+          onClick={handleClose}
         >
           <RxCross2 />
         </button>

@@ -17,7 +17,6 @@ const Question0 = ({ handleButtonClick }) => {
       document.removeEventListener("keydown", handleKeyDown);
     };
   }, [handleButtonClick]);
-
   return (
     <div className="w-full h-screen flex flex-col justify-center items-center p-4">
       <div className="text-center flex flex-col gap-6">

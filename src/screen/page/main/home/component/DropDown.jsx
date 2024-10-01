@@ -1,9 +1,13 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import SearchForm from "./SearchForm";
 
 const Dropdown = () => {
+  const navigate = useNavigate();
+
   const handleSearch = (searchParams) => {
     console.log("Search parameters:", searchParams);
+    navigate("/category");
   };
 
   return (
